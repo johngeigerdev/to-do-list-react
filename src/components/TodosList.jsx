@@ -1,25 +1,11 @@
 import {useContext} from 'react';
-import {TodosContext} from '../TodosContext.js';
+import {TodosContext} from '../TodosContext.jsx';
 import Todo from './Todo.jsx';
 
 
 function TodosList() {
 
-  const store = useContext(TodosContext)
-
-  function deleteHandler(id) {
-    store.dispatch({
-      type: 'deleted',
-      id: id
-    });
-  }
-
-  function toggleIsDoneHandler(id) {
-    store.dispatch({
-      type: 'toggledIsDone',
-      id: id
-    });
-  }
+  const store = useContext(TodosContext);
 
   return (
     <>
@@ -27,8 +13,6 @@ function TodosList() {
 
           {store.todos.map(todo => 
             <Todo
-              deleteTodo ={(id) => deleteHandler(id)}
-              toggleIsDone={(id) => toggleIsDoneHandler(id)}
               todo={todo}
               key={todo.id}
             />
