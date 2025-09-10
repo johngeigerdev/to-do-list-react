@@ -11,6 +11,18 @@ export function TodosProvider({children}) {
 
   const [todos, dispatch] = useReducer(todosReducer, initialTodos); 
   const [modalIsActive, setModalIsActive] = useState(false);
+  const [filterBy, setFilterBy] = useState('');
+
+  function filteredTodos() {
+    switch(filterBy) {
+      case 'todo':
+        return todos.filter(todo => !todo.isDone);
+      case 'done':
+        return todos.filter(todo => todo.isDone);
+      default:
+        return todos;
+    }
+  }
 
   return (
     <>
@@ -21,7 +33,10 @@ export function TodosProvider({children}) {
               todos, 
               dispatch,
               modalIsActive,
-              setModalIsActive
+              setModalIsActive,
+              filterBy,
+              setFilterBy,
+              filteredTodos
             }
           }>
             {children}  {/* these 'children' are the home, header and other components that we are passing into the App component using the context provider  */}
@@ -48,9 +63,9 @@ function todosReducer(todos,action) {
         break;
         case 'added': {
           let newTodo = action.newTodo;
-          let id = todos.length ? Math.max(todos.map(todo => todo.id)) + 1 : 1;
-          console.log(id);
-          return [...todos, action.newTodo];
+          newTodo.id = todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+          console.log(newTodo);
+          return [...todos, newTodo];
         }
         case 'toggledIsDone': {
             return (todos.map(todo => {

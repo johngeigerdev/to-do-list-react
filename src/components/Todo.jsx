@@ -2,6 +2,7 @@ import './Todo.scss';
 import {useTodos} from '../TodosContext.jsx';
 
 function Todo({ todo }) {
+    
     const store = useTodos();
 
   return (
